@@ -1,0 +1,64 @@
+﻿@page "/"
+
+<PageTitle>Movie List With Rating</PageTitle>
+<h1>Rating, Reviews WatchList</h1>
+<input placeholder="Movie Name" @bind="newMovieName" />
+<input placeholder="Movie Rating" @bind="newMovieRating" required/>
+<button @onclick="AddMovie">Add Movie Rating</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in movieList)
+        {
+            <tr>
+                <td>@movie.movie_name</td>
+                <td>@movie.rating</td>
+                <td><button @onclick="() => DeleteMovie(movie)">Delete</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    private List<MovieRating> movieList = new List<MovieRating>()
+    {
+        new MovieRating { movie_name = "Movie 1", rating = 4.5 },
+        new MovieRating { movie_name = "Movie 2", rating = 3.8 },
+        new MovieRating { movie_name = "Movie 3", rating = 4.2 }
+    };
+    private string? newMovieName;
+    private double newMovieRating;
+
+
+    private void AddMovie()
+    {
+        if (!string.IsNullOrWhiteSpace(newMovieName))
+        {
+            movieList.Add(new MovieRating { 
+                movie_name = newMovieName,
+                rating = newMovieRating});
+        }
+    }
+
+    private void UpdateMovie(string movieName)
+{
+    // Implement your logic for updating the movie here
+}
+    
+    private void DeleteMovie(MovieRating movie)
+{
+    movieList.Remove(movie);
+}
+    private class MovieRating
+    {
+        public string movie_name { get; set; }
+        public double rating { get; set; }
+    }
+}
